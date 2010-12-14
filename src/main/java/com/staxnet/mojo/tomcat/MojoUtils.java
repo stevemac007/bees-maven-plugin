@@ -15,8 +15,7 @@ public class MojoUtils {
 			if (deployDescriptor.exists()) {
 				return deployDescriptor;
 			} else {
-				throw new MojoExecutionException(
-						rb.getMessage("StaxMojo.deployDescriptorNotExist"));
+			    return null;
 			}
 		} else {
 			File f = new File(baseDir, "src" + File.separator + "main"
