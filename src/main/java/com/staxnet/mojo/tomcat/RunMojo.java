@@ -148,7 +148,7 @@ public class RunMojo extends AbstractI18NMojo
             // add classes directory to loader
             ArrayList<String> classdirs = new ArrayList<String>();
             if (classesDir != null)
-                classdirs.add(new File(classesDir).toURL().toString());
+                classdirs.add(new File(classesDir).toURI().toURL().toString());
 
             // add artifacts to loader
             if (dependencies != null) {
@@ -156,10 +156,10 @@ public class RunMojo extends AbstractI18NMojo
                     .hasNext();)
                 {
                     Artifact artifact = iterator.next();
-                    classdirs.add(artifact.getFile().toURL().toString());
+                    classdirs.add(artifact.getFile().toURI().toURL().toString());
                 }
             }
-
+            
             if (appConfig != null && appConfig.exists() && appxml != null &&
                 appxml.exists())
             {
