@@ -141,6 +141,13 @@ public class DeployMojo extends AbstractI18NMojo
     private File deployFile;
 
     /**
+     * Stax deployment type.
+     *
+     * @parameter expression="${stax.deltaDeploy}" default-value = "true"
+     */
+    private String deltaDeploy;
+
+    /**
      * Gets whether this project uses WAR packaging.
      * 
      * @return whether this project uses WAR packaging
@@ -225,10 +232,11 @@ public class DeployMojo extends AbstractI18NMojo
             StaxClient client =
                 new StaxClient(apiUrl, username, password, "xml", "0.1");
 
+            boolean delta = (deltaDeploy == null || deltaDeploy.equalsIgnoreCase("true")) ? true : false;
             if(deployFile.getName().endsWith(".war"))
             {
                 client.applicationDeployWar(appid, environment, message,
-                                            deployFile.getAbsolutePath(), null,
+                                            deployFile.getAbsolutePath(), null, delta,
                                             new HashWriteProgress());
             }
             else
@@ -280,6 +288,7 @@ public class DeployMojo extends AbstractI18NMojo
         server = getSysProperty("stax.server", server);
         environment = getSysProperty("stax.environment", environment);
         message = getSysProperty("stax.message", message);
+        deltaDeploy = getSysProperty("stax.deltaDeploy", deltaDeploy);
     }
 
     private void initCredentials() throws IOException
