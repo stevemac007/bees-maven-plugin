@@ -322,7 +322,8 @@ public class DeployMojo extends AbstractI18NMojo
                 {
                     if (entry.getName().equals(
                                                "META-INF/stax-application.xml") ||
-                        entry.getName().equals("WEB-INF/stax-web.xml"))
+                        entry.getName().equals("WEB-INF/stax-web.xml") ||
+                        entry.getName().equals("WEB-INF/cloudbees-web.xml"))
                     {
                         AppConfigHelper.load(appConfig, zis, null,
                                              environments,
