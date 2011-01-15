@@ -50,42 +50,42 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * The id of the stax application.
      * 
-     * @parameter expression="${stax.appid}"
+     * @parameter expression="${bees.appid}"
      */
     private String appid;
 
     /**
-     * Stax username.
+     * Bees username.
      * 
-     * @parameter expression="${stax.username}"
+     * @parameter expression="${bees.username}"
      */
     private String username;
 
     /**
-     * Stax password.
+     * Bees password.
      * 
-     * @parameter expression="${stax.password}"
+     * @parameter expression="${bees.password}"
      */
     private String password;
 
     /**
      * Configuration environments to use.
      * 
-     * @parameter expression="${stax.environment}"
+     * @parameter expression="${bees.environment}"
      */
     private String environment;
 
     /**
      * Message associated with the deployment.
      * 
-     * @parameter expression="${stax.message}"
+     * @parameter expression="${bees.message}"
      */
     private String message;
 
     /**
-     * Stax deployment server.
+     * Bees deployment server.
      * 
-     * @parameter expression="${stax.api.server}" default-value = "api.stax.net" 
+     * @parameter expression="${bees.api.server}" default-value = "api.stax.net"
      * @required
      */
     private String server;
@@ -98,9 +98,9 @@ public class DeployMojo extends AbstractI18NMojo
     private String warSourceDirectory;
 
     /**
-     * The path to the Stax deployment descriptor.
+     * The path to the Bees deployment descriptor.
      * 
-     * @parameter expression="${stax.appxml}" default-value =
+     * @parameter expression="${bees.appxml}" default-value =
      *            "${basedir}/src/main/config/stax-application.xml"
      */
     private File appConfig;
@@ -108,7 +108,7 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * The path to the J2EE appplication deployment descriptor.
      * 
-     * @parameter expression="${stax.j2ee.appxml}" default-value = "${basedir}/src/main/config/application.xml"
+     * @parameter expression="${bees.j2ee.appxml}" default-value = "${basedir}/src/main/config/application.xml"
      */
     private File appxml;
 
@@ -141,9 +141,9 @@ public class DeployMojo extends AbstractI18NMojo
     private File deployFile;
 
     /**
-     * Stax deployment type.
+     * Bees deployment type.
      *
-     * @parameter expression="${stax.delta}" default-value = "true"
+     * @parameter expression="${bees.delta}" default-value = "true"
      */
     private String delta;
 
@@ -282,13 +282,13 @@ public class DeployMojo extends AbstractI18NMojo
      */
     private void initParameters()
     {
-        appid = getSysProperty("stax.appid", appid);
-        username = getSysProperty("stax.username", username);
-        password = getSysProperty("stax.password", password);
-        server = getSysProperty("stax.server", server);
-        environment = getSysProperty("stax.environment", environment);
-        message = getSysProperty("stax.message", message);
-        delta = getSysProperty("stax.delta", delta);
+        appid = getSysProperty("bees.appid", appid);
+        username = getSysProperty("bees.username", username);
+        password = getSysProperty("bees.password", password);
+        server = getSysProperty("bees.server", server);
+        environment = getSysProperty("bees.environment", environment);
+        message = getSysProperty("bees.message", message);
+        delta = getSysProperty("bees.delta", delta);
     }
 
     private void initCredentials() throws IOException
@@ -298,12 +298,12 @@ public class DeployMojo extends AbstractI18NMojo
         BufferedReader inputReader =
             new BufferedReader(new InputStreamReader(System.in));
         if (promptForUsername) {
-            System.out.print("Enter your Stax Username: ");
+            System.out.print("Enter your CloudBees Username: ");
             username = inputReader.readLine();
         }
 
         if (promptForPassword) {
-            System.out.print("Enter your Stax Password: ");
+            System.out.print("Enter your CloudBees Password: ");
             password = inputReader.readLine();
         }
     }
@@ -331,7 +331,8 @@ public class DeployMojo extends AbstractI18NMojo
                 {
                     if (entry.getName().equals(
                                                "META-INF/stax-application.xml") ||
-                        entry.getName().equals("WEB-INF/stax-web.xml"))
+                        entry.getName().equals("WEB-INF/stax-web.xml") ||
+                        entry.getName().equals("WEB-INF/cloudbees-web.xml"))
                     {
                         AppConfigHelper.load(appConfig, zis, null,
                                              environments,

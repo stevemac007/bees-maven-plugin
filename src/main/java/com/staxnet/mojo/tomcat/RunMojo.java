@@ -47,7 +47,7 @@ public class RunMojo extends AbstractI18NMojo
     /**
      * The additional environment settings to load.
      * 
-     * @parameter expression="${stax.environment}"
+     * @parameter expression="${bees.environment}"
      */
     private String environment;
 
@@ -61,7 +61,7 @@ public class RunMojo extends AbstractI18NMojo
     /**
      * The port to run the Tomcat server on.
      * 
-     * @parameter expression="${stax.port}" default-value = "8080"
+     * @parameter expression="${bees.port}" default-value = "8080"
      */
     private int port;
 

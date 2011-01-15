@@ -7,11 +7,11 @@
         <artifactId>java-projects</artifactId>
         <version>1.0.20100601-SNAPSHOT</version>
     </parent>
-    <groupId>net.stax</groupId>
-    <artifactId>stax-maven-plugin</artifactId>
+    <groupId>com.cloudbees</groupId>
+    <artifactId>bees-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
     <version>${stax.version}</version>
-    <name>Stax Maven Mojo</name>
+    <name>CloudBees Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -73,7 +73,7 @@
         </dependency>       
     </dependencies>    
     <build>
-        <finalName>stax-maven-plugin</finalName>
+        <finalName>bees-maven-plugin</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
