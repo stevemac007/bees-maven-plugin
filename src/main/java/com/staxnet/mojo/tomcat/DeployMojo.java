@@ -4,13 +4,8 @@ package com.staxnet.mojo.tomcat;
 //under the Apache License, Version 2.0. You may obtain a copy of the License at
 //       http://www.apache.org/licenses/LICENSE-2.0 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -57,7 +52,7 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * Bees api key.
      * 
-     * @parameter expression="${bees.ukey}"
+     * @parameter expression="${bees.key}"
      */
     private String apikey;
 
@@ -85,10 +80,17 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * Bees deployment server.
      * 
+     * @parameter expression="${bees.server}"
+     */
+    private String server;
+
+    /**
+     * Bees deployment server.
+     *
      * @parameter expression="${bees.api.server}" default-value = "api.cloudbees.net"
      * @required
      */
-    private String server;
+    private String apiserver;
 
     /**
      * The web resources directory for the web application being run.
@@ -162,9 +164,11 @@ public class DeployMojo extends AbstractI18NMojo
      */
     public void execute() throws MojoExecutionException, MojoFailureException
     {
+        // Read SDK config file
+        Properties properties = getConfigProperties();
         // Initialize the parameter values (to allow system property overrides
         // from the command line)
-        initParameters();
+        initParameters(properties);
 
         // ensure project is a web application
         if (!isWar()) {
@@ -198,7 +202,12 @@ public class DeployMojo extends AbstractI18NMojo
 
         // deploy the application to the server
         try {
-            String apiUrl = String.format("http://%s/api", server);
+            String apiUrl = null;
+            if (server != null)
+                apiUrl = String.format("http://%s/api", server);
+            else
+                apiUrl = properties.getProperty("bees.api.url", String.format("http://%s/api", apiserver));
+
             initCredentials();
             
             AppConfig appConfig =
@@ -208,7 +217,7 @@ public class DeployMojo extends AbstractI18NMojo
                              new String[] { "deploy" });
             initAppId(appConfig);
 
-            String defaultAppDomain = apikey;
+            String defaultAppDomain = properties.getProperty("bees.project.app.domain");
             String[] appIdParts = appid.split("/");
             String domain = null;
             if (appIdParts.length > 1) {
@@ -280,15 +289,45 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * Initialize the parameter values (to allow system property overrides)
      */
-    private void initParameters()
+    private void initParameters(Properties properties)
     {
         appid = getSysProperty("bees.appid", appid);
+
         apikey = getSysProperty("bees.apikey", apikey);
+        if (apikey == null)
+            apikey = properties.getProperty("bees.api.key");
+
         secret = getSysProperty("bees.secret", secret);
+        if (secret == null)
+            secret = properties.getProperty("bees.api.secret");
+
         server = getSysProperty("bees.server", server);
         environment = getSysProperty("bees.environment", environment);
         message = getSysProperty("bees.message", message);
         delta = getSysProperty("bees.delta", delta);
+    }
+
+    private Properties getConfigProperties()
+    {
+        Properties properties = new Properties();
+        File userConfigFile = new File(System.getProperty("user.home"), ".bees/bees.config");
+        if (userConfigFile.exists()) {
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(userConfigFile);
+                properties.load(fis);
+                fis.close();
+            } catch (IOException e) {
+                getLog().error(e);
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException ignored) {}
+                }
+            }
+        }
+        return properties;
     }
 
     private void initCredentials() throws IOException
