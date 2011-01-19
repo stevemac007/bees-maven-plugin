@@ -55,18 +55,18 @@ public class DeployMojo extends AbstractI18NMojo
     private String appid;
 
     /**
-     * Bees username.
+     * Bees api key.
      * 
-     * @parameter expression="${bees.username}"
+     * @parameter expression="${bees.ukey}"
      */
-    private String username;
+    private String apikey;
 
     /**
-     * Bees password.
+     * Bees api secret.
      * 
-     * @parameter expression="${bees.password}"
+     * @parameter expression="${bees.secret}"
      */
-    private String password;
+    private String secret;
 
     /**
      * Configuration environments to use.
@@ -85,7 +85,7 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * Bees deployment server.
      * 
-     * @parameter expression="${bees.api.server}" default-value = "api.stax.net"
+     * @parameter expression="${bees.api.server}" default-value = "api.cloudbees.net"
      * @required
      */
     private String server;
@@ -208,7 +208,7 @@ public class DeployMojo extends AbstractI18NMojo
                              new String[] { "deploy" });
             initAppId(appConfig);
 
-            String defaultAppDomain = username;
+            String defaultAppDomain = apikey;
             String[] appIdParts = appid.split("/");
             String domain = null;
             if (appIdParts.length > 1) {
@@ -230,9 +230,9 @@ public class DeployMojo extends AbstractI18NMojo
                                              "Deploying application %s (environment: %s)",
                                              appid, environment));
             StaxClient client =
-                new StaxClient(apiUrl, username, password, "xml", "0.1");
+                new StaxClient(apiUrl, apikey, secret, "xml", "1.0");
 
-            boolean deployDelta = (delta == null || delta.equalsIgnoreCase("true")) ? true : false;
+            boolean deployDelta = (delta == null || delta.equalsIgnoreCase("false")) ? false : true;
             if(deployFile.getName().endsWith(".war"))
             {
                 client.applicationDeployWar(appid, environment, message,
@@ -283,8 +283,8 @@ public class DeployMojo extends AbstractI18NMojo
     private void initParameters()
     {
         appid = getSysProperty("bees.appid", appid);
-        username = getSysProperty("bees.username", username);
-        password = getSysProperty("bees.password", password);
+        apikey = getSysProperty("bees.apikey", apikey);
+        secret = getSysProperty("bees.secret", secret);
         server = getSysProperty("bees.server", server);
         environment = getSysProperty("bees.environment", environment);
         message = getSysProperty("bees.message", message);
@@ -293,18 +293,18 @@ public class DeployMojo extends AbstractI18NMojo
 
     private void initCredentials() throws IOException
     {
-        boolean promptForUsername = username == null;
-        boolean promptForPassword = username == null || password == null;
+        boolean promptForApiKey = apikey == null;
+        boolean promptForApiSecret = apikey == null || secret == null;
         BufferedReader inputReader =
             new BufferedReader(new InputStreamReader(System.in));
-        if (promptForUsername) {
-            System.out.print("Enter your CloudBees Username: ");
-            username = inputReader.readLine();
+        if (promptForApiKey) {
+            System.out.print("Enter your CloudBees API key: ");
+            apikey = inputReader.readLine();
         }
 
-        if (promptForPassword) {
-            System.out.print("Enter your CloudBees Password: ");
-            password = inputReader.readLine();
+        if (promptForApiSecret) {
+            System.out.print("Enter your CloudBees Api secret: ");
+            secret = inputReader.readLine();
         }
     }
     
