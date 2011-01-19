@@ -232,7 +232,7 @@ public class DeployMojo extends AbstractI18NMojo
             StaxClient client =
                 new StaxClient(apiUrl, apikey, secret, "xml", "1.0");
 
-            boolean deployDelta = (delta == null || delta.equalsIgnoreCase("false")) ? false : true;
+            boolean deployDelta = (delta == null || delta.equalsIgnoreCase("true")) ? true : false;
             if(deployFile.getName().endsWith(".war"))
             {
                 client.applicationDeployWar(appid, environment, message,
