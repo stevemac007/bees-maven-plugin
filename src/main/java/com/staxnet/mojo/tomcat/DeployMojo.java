@@ -87,7 +87,7 @@ public class DeployMojo extends AbstractI18NMojo
     /**
      * Bees deployment server.
      *
-     * @parameter expression="${bees.api.server}" default-value = "api.cloudbees.net"
+     * @parameter expression="${bees.api.server}" default-value = "api.cloudbees.com"
      * @required
      */
     private String apiserver;
