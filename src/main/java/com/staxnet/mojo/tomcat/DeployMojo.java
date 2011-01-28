@@ -204,9 +204,9 @@ public class DeployMojo extends AbstractI18NMojo
         try {
             String apiUrl = null;
             if (server != null)
-                apiUrl = String.format("http://%s/api", server);
+                apiUrl = String.format("https://%s/api", server);
             else
-                apiUrl = properties.getProperty("bees.api.url", String.format("http://%s/api", apiserver));
+                apiUrl = properties.getProperty("bees.api.url", String.format("https://%s/api", apiserver));
 
             initCredentials();
             
