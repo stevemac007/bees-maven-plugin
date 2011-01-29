@@ -79,18 +79,11 @@ public class DeployMojo extends AbstractI18NMojo
 
     /**
      * Bees deployment server.
-     * 
-     * @parameter expression="${bees.server}"
-     */
-    private String server;
-
-    /**
-     * Bees deployment server.
      *
-     * @parameter expression="${bees.api.server}" default-value = "api.cloudbees.com"
+     * @parameter expression="${bees.apiurl}" default-value = "https://api.cloudbees.com/api"
      * @required
      */
-    private String apiserver;
+    private String apiurl;
 
     /**
      * The web resources directory for the web application being run.
@@ -202,12 +195,6 @@ public class DeployMojo extends AbstractI18NMojo
 
         // deploy the application to the server
         try {
-            String apiUrl = null;
-            if (server != null)
-                apiUrl = String.format("https://%s/api", server);
-            else
-                apiUrl = properties.getProperty("bees.api.url", String.format("https://%s/api", apiserver));
-
             initCredentials();
             
             AppConfig appConfig =
@@ -239,7 +226,7 @@ public class DeployMojo extends AbstractI18NMojo
                                              "Deploying application %s (environment: %s)",
                                              appid, environment));
             StaxClient client =
-                new StaxClient(apiUrl, apikey, secret, "xml", "1.0");
+                new StaxClient(apiurl, apikey, secret, "xml", "1.0");
 
             boolean deployDelta = (delta == null || delta.equalsIgnoreCase("true")) ? true : false;
             if(deployFile.getName().endsWith(".war"))
@@ -301,7 +288,9 @@ public class DeployMojo extends AbstractI18NMojo
         if (secret == null)
             secret = properties.getProperty("bees.api.secret");
 
-        server = getSysProperty("bees.server", server);
+        apiurl = getSysProperty("bees.api.url", apiurl);
+        if (apiurl == null)
+        	apiurl = properties.getProperty("bees.api.url");
         environment = getSysProperty("bees.environment", environment);
         message = getSysProperty("bees.message", message);
         delta = getSysProperty("bees.delta", delta);
