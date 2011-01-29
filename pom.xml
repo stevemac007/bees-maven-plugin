@@ -85,4 +85,10 @@
             </plugin>
         </plugins>
     </build>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>cloudbees</id>
+            <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
