@@ -2,15 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>net.stax</groupId>
-        <artifactId>java-projects</artifactId>
-        <version>1.0.20110131-SNAPSHOT</version>
-    </parent>
     <groupId>com.cloudbees</groupId>
     <artifactId>bees-maven-plugin</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>${stax.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <name>CloudBees Maven Mojo</name>
     <url>http://maven.apache.org</url>
     <dependencies>
@@ -38,12 +33,12 @@
         <dependency>
             <groupId>net.stax</groupId>
             <artifactId>stax-appserver</artifactId>
-            <version>${stax.version}</version>
+            <version>1.0.20110131-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>net.stax</groupId>
             <artifactId>stax-api-client</artifactId>
-            <version>${stax.version}</version>
+            <version>1.0.20110131-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
