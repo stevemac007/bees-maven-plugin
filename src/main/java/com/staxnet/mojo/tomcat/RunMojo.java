@@ -16,7 +16,7 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
-import com.staxnet.appserver.SnazAppServer;
+import com.staxnet.appserver.StaxAppServer;
 import com.staxnet.appserver.StaxSdkAppServer;
 import com.staxnet.appserver.config.AppConfig;
 import com.staxnet.appserver.config.AppConfigHelper;
@@ -185,8 +185,8 @@ public class RunMojo extends AbstractI18NMojo
         ClassLoader cl, String[] classdirs, int port, File serverXml,
         File appConfig, File appxml, String[] environments) throws ServletException
     {
-        SnazAppServer appServer =
-            new SnazAppServer(baseDir, configurationDir, cl, classdirs,
+        StaxAppServer appServer =
+            new StaxAppServer(baseDir, configurationDir, cl, classdirs,
                 serverXml, port, appConfig, appxml, environments, null);
         getLog().info("application environment: " + StringHelper.join(environments, ","));
         appServer.start();
