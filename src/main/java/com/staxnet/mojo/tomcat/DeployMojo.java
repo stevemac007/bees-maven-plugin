@@ -9,8 +9,8 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import net.stax.api.HashWriteProgress;
-import net.stax.api.StaxClient;
+import com.cloudbees.api.HashWriteProgress;
+import com.cloudbees.api.StaxClient;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
