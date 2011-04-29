@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.cloudbees.api.BeesClientConfiguration;
 import com.cloudbees.api.HashWriteProgress;
 import com.cloudbees.api.StaxClient;
 
@@ -143,6 +144,30 @@ public class DeployMojo extends AbstractI18NMojo
     private String delta;
 
     /**
+     * Bees http proxyHost.
+     * @parameter expression="${bees.proxyHost}"
+     */
+    private String proxyHost;
+
+    /**
+     * Bees http proxyPort.
+     * @parameter expression="${bees.proxyPort}"
+     */
+    private String proxyPort;
+
+    /**
+     * Bees http proxyUser.
+     * @parameter expression="${bees.proxyUser}"
+     */
+    private String proxyUser;
+
+    /**
+     * Bees http proxyPassword.
+     * @parameter expression="${bees.proxyPassword}"
+     */
+    private String proxyPassword;
+
+    /**
      * Gets whether this project uses WAR packaging.
      * 
      * @return whether this project uses WAR packaging
@@ -225,8 +250,17 @@ public class DeployMojo extends AbstractI18NMojo
             System.out.println(String.format(
                                              "Deploying application %s (environment: %s)",
                                              appid, environment));
-            StaxClient client =
-                new StaxClient(apiurl, apikey, secret, "xml", "1.0");
+
+            BeesClientConfiguration beesClientConfiguration = new BeesClientConfiguration(apiurl, apikey, secret, "xml", "1.0");
+
+            // Set proxy information
+            beesClientConfiguration.setProxyHost(properties.getProperty("bees.api.proxy.host", proxyHost));
+            if (properties.getProperty("bees.api.proxy.port") != null || proxyPort != null)
+                beesClientConfiguration.setProxyPort(Integer.parseInt(properties.getProperty("bees.api.proxy.port", proxyPort)));
+            beesClientConfiguration.setProxyUser(properties.getProperty("bees.api.proxy.user", proxyUser));
+            beesClientConfiguration.setProxyPassword(properties.getProperty("bees.api.proxy.password", proxyPassword));
+
+            StaxClient client = new StaxClient(beesClientConfiguration);
 
             boolean deployDelta = (delta == null || delta.equalsIgnoreCase("true")) ? true : false;
             if(deployFile.getName().endsWith(".war"))
@@ -294,6 +328,10 @@ public class DeployMojo extends AbstractI18NMojo
         environment = getSysProperty("bees.environment", environment);
         message = getSysProperty("bees.message", message);
         delta = getSysProperty("bees.delta", delta);
+        proxyHost = getSysProperty("bees.proxyHost", proxyHost);
+        proxyPort = getSysProperty("bees.proxyPort", proxyPort);
+        proxyUser = getSysProperty("bees.proxyUser", proxyUser);
+        proxyPassword = getSysProperty("bees.proxyPassword", proxyPassword);
     }
 
     private Properties getConfigProperties()
