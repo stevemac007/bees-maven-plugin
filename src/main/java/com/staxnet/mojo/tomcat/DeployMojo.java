@@ -261,6 +261,8 @@ public class DeployMojo extends AbstractI18NMojo
             beesClientConfiguration.setProxyPassword(properties.getProperty("bees.api.proxy.password", proxyPassword));
 
             StaxClient client = new StaxClient(beesClientConfiguration);
+            String str = properties.getProperty("bees.api.verbose", "false");
+            client.setVerbose(Boolean.parseBoolean(str));
 
             boolean deployDelta = (delta == null || delta.equalsIgnoreCase("true")) ? true : false;
             if(deployFile.getName().endsWith(".war"))
