@@ -9,9 +9,9 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.cloudbees.api.BeesClient;
 import com.cloudbees.api.BeesClientConfiguration;
 import com.cloudbees.api.HashWriteProgress;
-import com.cloudbees.api.StaxClient;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -260,7 +260,7 @@ public class DeployMojo extends AbstractI18NMojo
             beesClientConfiguration.setProxyUser(properties.getProperty("bees.api.proxy.user", proxyUser));
             beesClientConfiguration.setProxyPassword(properties.getProperty("bees.api.proxy.password", proxyPassword));
 
-            StaxClient client = new StaxClient(beesClientConfiguration);
+            BeesClient client = new BeesClient(beesClientConfiguration);
             String str = properties.getProperty("bees.api.verbose", "false");
             client.setVerbose(Boolean.parseBoolean(str));
 

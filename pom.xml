@@ -36,9 +36,9 @@
             <version>1.0.20110131-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>net.stax</groupId>
-            <artifactId>stax-api-client</artifactId>
-            <version>1.0.20110131-SNAPSHOT</version>
+            <groupId>com.cloudbees</groupId>
+            <artifactId>cloudbees-api-client</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>
@@ -79,11 +79,41 @@
                 </configuration>
             </plugin>
         </plugins>
+        <extensions>
+          <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>1.0-beta-7</version>
+          </extension>
+        </extensions>
     </build>
+    <repositories>
+      <repository>
+        <id>cloudbees-nexus-snapshots</id>
+        <name>Sonatype Nexus Snapshots</name>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <releases>
+          <enabled>false</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </repository>
+      <repository>
+        <id>cloudbees-private-snapshot</id>
+        <url>https://repository-cloudbees.forge.cloudbees.com/private-snapshot</url>
+        <releases>
+          <enabled>false</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </repository>
+  </repositories>
     <distributionManagement>
         <snapshotRepository>
-            <id>cloudbees</id>
-            <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
+            <id>cloudbees-public-snapshot</id>
+            <url>dav:https://repository-cloudbees.forge.cloudbees.com/private-snapshot</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
