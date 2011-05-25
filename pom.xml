@@ -100,8 +100,8 @@
         </snapshots>
       </repository>
       <repository>
-        <id>cloudbees-private-snapshot</id>
-        <url>https://repository-cloudbees.forge.cloudbees.com/private-snapshot</url>
+        <id>cloudbees-public-snapshot</id>
+        <url>https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
         <releases>
           <enabled>false</enabled>
         </releases>
@@ -114,7 +114,6 @@
     <snapshotRepository>
       <id>cloudbees-public-snapshot</id>
       <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
-          <!--<url>dav:https://repository-admin.forge.cloudbees.com/snapshot/</url>-->
     </snapshotRepository>
   </distributionManagement>
 </project>
