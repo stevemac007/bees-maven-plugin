@@ -5,10 +5,13 @@ package com.staxnet.mojo.tomcat;
 //       http://www.apache.org/licenses/LICENSE-2.0 
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.cloudbees.api.ApplicationDeployArchiveResponse;
 import com.cloudbees.api.BeesClient;
 import com.cloudbees.api.BeesClientConfiguration;
 import com.cloudbees.api.HashWriteProgress;
@@ -168,6 +171,12 @@ public class DeployMojo extends AbstractI18NMojo
     private String proxyPassword;
 
     /**
+     * Bees container type.
+     * @parameter expression="${bees.containerType}"
+     */
+    private String containerType;
+
+    /**
      * Gets whether this project uses WAR packaging.
      * 
      * @return whether this project uses WAR packaging
@@ -264,19 +273,19 @@ public class DeployMojo extends AbstractI18NMojo
             String str = properties.getProperty("bees.api.verbose", "false");
             client.setVerbose(Boolean.parseBoolean(str));
 
+            String archiveType = deployFile.getName().endsWith(".war") ? "war" : "ear";
+
             boolean deployDelta = (delta == null || delta.equalsIgnoreCase("true")) ? true : false;
-            if(deployFile.getName().endsWith(".war"))
-            {
-                client.applicationDeployWar(appid, environment, message,
-                                            deployFile.getAbsolutePath(), null, deployDelta,
-                                            new HashWriteProgress());
-            }
-            else
-            {
-                client.applicationDeployEar(appid, environment, message,
-                    deployFile.getAbsolutePath(), null,
+
+            Map<String, String> parameters = new HashMap<String, String>();
+            if (containerType != null)
+                parameters.put("containerType", containerType);
+
+            ApplicationDeployArchiveResponse res = client.applicationDeployArchive(appid, environment, message,
+                    deployFile.getAbsolutePath(), null, archiveType, deployDelta, parameters,
                     new HashWriteProgress());
-            }
+            System.out.println("Application " + res.getId() + " deployed: " + res.getUrl());
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new MojoFailureException(
@@ -334,6 +343,7 @@ public class DeployMojo extends AbstractI18NMojo
         proxyPort = getSysProperty("bees.proxyPort", proxyPort);
         proxyUser = getSysProperty("bees.proxyUser", proxyUser);
         proxyPassword = getSysProperty("bees.proxyPassword", proxyPassword);
+        containerType = getSysProperty("bees.containerType", containerType);
     }
 
     private Properties getConfigProperties()
