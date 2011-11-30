@@ -87,6 +87,11 @@
           </extension>
         </extensions>
     </build>
+    <scm>
+      <connection>scm:git:git://github.com/cloudbees/stax-java.git</connection>
+      <developerConnection>scm:git:git@github.com:cloudbees/stax-java.git</developerConnection>
+      <url>http://github.com/cloudbees/stax-java/tree/master/</url>
+    </scm>
     <repositories>
       <repository>
         <id>cloudbees-nexus-snapshots</id>
@@ -111,6 +116,10 @@
       </repository>
   </repositories>
   <distributionManagement>
+    <repository>
+      <id>cloudbees-public-snapshot</id>
+      <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-release</url>
+    </repository>
     <snapshotRepository>
       <id>cloudbees-public-snapshot</id>
       <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
