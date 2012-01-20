@@ -5,6 +5,7 @@
         <groupId>com.cloudbees</groupId>
         <artifactId>cloudbees-oss-parent</artifactId>
         <version>1</version>
+        <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>bees-maven-plugin</artifactId>
@@ -45,7 +46,7 @@
         <dependency>
             <groupId>net.stax</groupId>
             <artifactId>stax-appserver</artifactId>
-            <version>1.0.20110919-SNAPSHOT</version>
+            <version>1.0-beta-1</version>
         </dependency>
         <dependency>
             <groupId>com.cloudbees</groupId>
@@ -94,9 +95,8 @@
     </scm>
     <repositories>
       <repository>
-        <id>cloudbees-nexus-snapshots</id>
-        <name>Sonatype Nexus Snapshots</name>
-        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <id>cloudbees-public-snapshot</id>
+        <url>https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
         <releases>
           <enabled>false</enabled>
         </releases>
@@ -105,13 +105,13 @@
         </snapshots>
       </repository>
       <repository>
-        <id>cloudbees-public-snapshot</id>
-        <url>https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
+        <id>cloudbees-public-release</id>
+        <url>https://repository-cloudbees.forge.cloudbees.com/public-release</url>
         <releases>
-          <enabled>false</enabled>
+          <enabled>true</enabled>
         </releases>
         <snapshots>
-          <enabled>true</enabled>
+          <enabled>false</enabled>
         </snapshots>
       </repository>
   </repositories>
