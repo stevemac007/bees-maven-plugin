@@ -1,9 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>com.cloudbees</groupId>
-        <artifactId>cloudbees-oss-parent</artifactId>
-        <version>1</version>
-        <relativePath />
+        <artifactId>cloudbees-internal-parent</artifactId>
+        <version>3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>bees-maven-plugin</artifactId>
@@ -91,6 +90,16 @@
         <developerConnection>scm:git:git@github.com:cloudbees/${project.artifactId}.git</developerConnection>
         <url>http://github.com/cloudbees/${project.artifactId}/tree/master/</url>
     </scm>
+    <distributionManagement>
+      <repository>
+        <id>cloudbees-public-release</id>
+        <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-release</url>
+      </repository>
+      <snapshotRepository>
+        <id>cloudbees-public-snapshot</id>
+        <url>dav:https://repository-cloudbees.forge.cloudbees.com/public-snapshot</url>
+      </snapshotRepository>
+    </distributionManagement>
     <repositories>
       <repository>
         <id>cloudbees-public-snapshot</id>
